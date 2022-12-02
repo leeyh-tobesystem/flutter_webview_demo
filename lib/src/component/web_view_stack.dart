@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -20,6 +21,7 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebView(
           initialUrl: 'https://flutter.dev',
+          // initialUrl: 'http://192.168.3.25:19824',
           onWebViewCreated: (webViewController) {
             widget.controller.complete(webViewController);
           },
@@ -52,28 +54,15 @@ class _WebViewStackState extends State<WebViewStack> {
             }
             return NavigationDecision.navigate;
           },
-          javascriptMode: JavascriptMode.unrestricted,
-          javascriptChannels: _createJavascriptChannels(context),  // Add this line
+          javascriptMode: JavascriptMode.unrestricted,        // Add this line
         ),
         if (loadingPercentage < 100)
-          LinearProgressIndicator(
-            value: loadingPercentage / 100.0,
-          ),
+          // LinearProgressIndicator(
+          //   value: loadingPercentage / 100.0,
+          // ),
+          const Center( child: CircularProgressIndicator(),
+          )
       ],
     );
   }
-
-  // Add from here ...
-  Set<JavascriptChannel> _createJavascriptChannels(BuildContext context) {
-    return {
-      JavascriptChannel(
-        name: 'SnackBar',
-        onMessageReceived: (message) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message.message)));
-        },
-      ),
-    };
-  }
-// ... to here.
 }
